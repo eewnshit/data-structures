@@ -28,6 +28,7 @@ bool addElement(StaticArray* array, int value) {
     if (array->size >= array->capacity) {
         return NULL;
     }
+
     array->data[array->size++] = value;
     return true;
 }
@@ -63,12 +64,11 @@ void destroyStaticArray(StaticArray* array) {
 }
 
 int main() {
-    StaticArray array = createStaticArray(10);
+    StaticArray array = createStaticArray(2);
     addElement(&array, 10);
     addElement(&array, 20);
     addElement(&array, 30);
     
-
     if (setElement(&array, 1, 50)) {
         printf("Element at index 1 become 50\n");
     }
@@ -84,6 +84,9 @@ int main() {
     if (value_ptr != NULL) {
         printf("Direct access to element at index 1: %d\n", *value_ptr);
     }
+    
+    printf("capacity: %zu\n", array.capacity);
+    printf("size: %zu\n", array.size);
 
     destroyStaticArray(&array);
     return 0;
