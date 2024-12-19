@@ -35,6 +35,30 @@ void appendNode(struct Node** head, int data) {
     current->next = newNode;
 }
 
+void insertNode(struct Node** head, size_t pos, int data) {
+    struct Node* newNode = createNode(data);
+    struct Node* current = *head;
+
+    if (pos == 0) {
+        newNode->next = *head;
+        *head = newNode;
+        return;
+    }
+
+    for (int i = 0; i < pos - 1 && current != NULL; i++) {
+        current = current->next;
+    }
+    
+    if (current == NULL) {
+        printf("Invalid position\n");
+        return;
+    }
+
+    newNode->next = current->next;
+    current->next = newNode;
+
+}
+
 void deleteNode(struct Node** head, int key) {
     struct Node* temp = *head;
     struct Node* prev = NULL;
@@ -69,10 +93,10 @@ void printList(struct Node* head) {
 }
 
 int main() {
-    struct Node* head = createNode(20);
-    appendNode(&head, 30);
-    appendNode(&head, 40);
-    deleteNode(&head, 40);
+    struct Node* head = createNode(1);
+    appendNode(&head, 2);
+    appendNode(&head, 3);
+    insertNode(&head, 0, 30);
     printList(head);
     return 0;
 }
