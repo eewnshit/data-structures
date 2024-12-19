@@ -8,28 +8,31 @@ struct Node {
 
 struct Node* createNode(int data) {
     struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
-    if (!newNode) {
-        printf("Error on memory allocation\n");
+    if (newNode == NULL) {
+        printf("It was not possible to allocate a memory.");
         exit(1);
     }
     newNode->data = data;
     newNode->next = NULL;
+
     return newNode;
 }
 
 void appendNode(struct Node** head, int data) {
     struct Node* newNode = createNode(data);
-    if(*head == NULL) {
+    
+    if (*head == NULL) {
         *head = newNode;
         return;
     }
-    
-    struct Node* temp = *head;
-    while (temp->next != NULL) {
-        temp = temp->next;
+
+    struct Node* current = *head;
+
+    while (current->next != NULL) {
+        current = current->next;
     }
 
-    temp->next = newNode;
+    current->next = newNode;
 }
 
 void deleteNode(struct Node** head, int key) {
@@ -48,7 +51,7 @@ void deleteNode(struct Node** head, int key) {
     }
 
     if (temp == NULL) {
-        printf("Element `%d` not found in LinkedList\n", key);
+        printf("Element %d not found in LinkedList\n", key);
         return;
     }
 
@@ -61,21 +64,15 @@ void printList(struct Node* head) {
     while (temp != NULL) {
         printf("%d -> ", temp->data);
         temp = temp->next;
-    }
+    };
     printf("NULL\n");
 }
 
 int main() {
-    struct Node* head = NULL;
-    appendNode(&head, 10);
-    appendNode(&head, 20);
+    struct Node* head = createNode(20);
     appendNode(&head, 30);
-    
-    printf("Initial LinkedList: \n");
-    printList(head);
-    
-    printf("\nDeleting 20 from LinkedList: \n");
-    deleteNode(&head, 20);
+    appendNode(&head, 40);
+    deleteNode(&head, 40);
     printList(head);
     return 0;
 }
