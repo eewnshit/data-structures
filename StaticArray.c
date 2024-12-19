@@ -72,7 +72,7 @@ int main() {
     if (setElement(&array, 1, 50)) {
         printf("Element at index 1 become 50\n");
     }
-
+    
     for (size_t i = 0; i < array.size; i++) {
         int value;
         if(getElement(&array, i, &value)) {
