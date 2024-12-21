@@ -8,15 +8,17 @@ typedef struct Node {
 
 typedef struct PQueue {
     Node* front;
+    char* type;
 } PQueue;
 
-PQueue* createPQueue() {
+PQueue* createPQueue(char* type) {
     PQueue* queue = (PQueue*) malloc(sizeof(PQueue));
     if (queue == NULL) {
         printf("The queue is empty!\n");
         exit(1);
     }
     queue->front = NULL;
+    queue->type = type;
     return queue;
 }
 
@@ -43,9 +45,16 @@ void enqueue(PQueue** queue, int value) {
 
     Node* current = queuePointer->front;
     
-    while(current != NULL && current->value <= value) {
-        prev = current;
-        current = current->next;
+    if(queuePointer->type == "<" || queuePointer->type == NULL) {
+        while(current != NULL && current->value <= value) {
+            prev = current;
+            current = current->next;
+        }
+    } else if (queuePointer->type == ">") {
+        while(current != NULL && current->value >= value) {
+            prev = current;
+            current = current->next;
+        }
     }
 
     if (prev == NULL) {
@@ -59,9 +68,30 @@ void enqueue(PQueue** queue, int value) {
     
 }
 
+Node* dequeue(PQueue** queue) {
+    PQueue* queuePointer = *queue;
+    if (queuePointer->front == NULL) {
+        printf("The Priority Queue is empty!\n");
+        return NULL;
+    }
+    Node* removedNode = queuePointer->front;
+    queuePointer->front = queuePointer->front->next;
+    return removedNode;
+}
+
 int main() {
-    PQueue* queue = createPQueue();
+
+    // '<' least to greater
+    // '>' greater to least
+        
+    PQueue* queue = createPQueue(">");
     enqueue(&queue, 2);
+    enqueue(&queue, 8);
+    enqueue(&queue, 4);
     enqueue(&queue, 1);
+    printf("Primeiro valor: %d\n", queue->front->value);
     printf("Segundo valor: %d\n", queue->front->next->value);
+    printf("Terceiro valor: %d\n", queue->front->next->next->value);
+    printf("Quarto valor: %d\n", queue->front->next->next->next->value);
+    return 0;
 }
